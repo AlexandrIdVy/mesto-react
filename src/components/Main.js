@@ -1,0 +1,20 @@
+function Main(props) {
+    return (
+    <main className="content">
+      <section className="profile">
+        <button type="button" className="profile__edit-avatar-btn button" onClick={props.onEditAvatar}>
+          <img src="#" alt="Аватар профиля" className="profile__avatar" />
+        </button>
+        <div className="profile__info">
+          <h1 className="profile__info-title"></h1>
+          <p className="profile__info-subtitle"></p>
+          <button type="button" className="profile__info-edit-btn button" onClick={props.onEditProfile}></button>
+        </div>
+        <button type="button" className="profile__add-btn button" onClick={props.onAddPlace}></button>
+      </section>
+      <section className="places"></section>
+    </main>
+    )
+}
+
+export default Main;
