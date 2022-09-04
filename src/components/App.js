@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import api from "../utils/Api";
 
 function App() {
-  const [isOpen, setIsOpen] = React.useState('');
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [name, setName] = React.useState('');
-  const [title, setTitle] = React.useState('');
+  const [isOpen, setIsOpen] = useState('');
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [user, setUser] = useState('');
+  const [isUserData, setIsUserData] = useState(false);
+
+  useEffect(() => {
+    if (!isUserData){
+      api.getUserMe()
+      .then(data => setUser(data))
+      .catch(err => console.log(err))
+      .finally(() => setIsUserData(true));
+    }
+  });
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -36,6 +48,8 @@ function App() {
 
   function closeAllPopups() {
     setIsOpen('');
+    setName('');
+    setTitle('');
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -45,6 +59,9 @@ function App() {
     <div className="page">
       <Header />
       <Main
+        userAvatar={user.avatar}
+        userName={user.name}
+        userDescription={user.about}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
