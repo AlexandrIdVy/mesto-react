@@ -5,6 +5,7 @@ import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
+import Cards from "./Cards";
 
 function App() {
   const [isOpen, setIsOpen] = useState('');
@@ -14,16 +15,22 @@ function App() {
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
-  const [isUserData, setIsUserData] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    if (!isUserData){
-      api.getUserMe()
-      .then(data => setUser(data))
+    api.getUserMe()
+      .then(dataUser => setUser(dataUser))
       .catch(err => console.log(err))
-      .finally(() => setIsUserData(true));
-    }
-  });
+      .finally(() => setIsLoaded(true))
+  }, [isLoaded]);
+
+  useEffect(() => {
+    api.getInitialCards()
+      .then(dataCards => setCards(dataCards))
+      .catch(err => console.log(err))
+      .finally(() => setIsLoaded(true))
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -58,6 +65,7 @@ function App() {
   return (
     <div className="page">
       <Header />
+      <main className="content">
       <Main
         userAvatar={user.avatar}
         userName={user.name}
@@ -66,6 +74,10 @@ function App() {
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
       />
+      <section className="places">
+        { cards.map(card => <Cards key={card._id} {...card} />) }
+      </section>
+      </main>
       <Footer />
       <PopupWithForm
         name={name}
@@ -77,17 +89,6 @@ function App() {
         onClose={closeAllPopups}
       />
       <ImagePopup />
-      <template id="place-template">
-        <article className="place">
-          <button type="button" className="place__trash-btn button"></button>
-          <img className="place__image" src="#" alt="#" />
-          <h2 className="place__title"></h2>
-          <div className="place__like">
-            <button type="button" className="place__like-btn button"></button>
-            <span className="place__like-value"></span>
-          </div>
-        </article>
-      </template>
     </div>
   );
 }

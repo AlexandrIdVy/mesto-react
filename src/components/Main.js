@@ -1,8 +1,5 @@
-import api from "../utils/Api";
-
 function Main(props) {
     return (
-    <main className="content">
       <section className="profile">
         <button type="button" className="profile__edit-avatar-btn button" onClick={props.onEditAvatar}>
           <img src={props.userAvatar} alt="Аватар профиля" className="profile__avatar" />
@@ -14,8 +11,6 @@ function Main(props) {
         </div>
         <button type="button" className="profile__add-btn button" onClick={props.onAddPlace}></button>
       </section>
-      <section className="places"></section>
-    </main>
     )
 }
 
