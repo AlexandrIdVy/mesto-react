@@ -1,4 +1,4 @@
-function Cards(props) {
+function Card(props) {
 
   function handleClick() {
     const card = { link: props.link, name: props.name};
@@ -20,4 +20,4 @@ function Cards(props) {
   );
 }
 
-export default Cards;
+export default Card;

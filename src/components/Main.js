@@ -1,4 +1,4 @@
-import Cards from "./Cards";
+import Card from "./Card";
 
 function Main(props) {
     return (
@@ -16,7 +16,7 @@ function Main(props) {
       </section>
       <section className="places">
          { props.cards ? props.cards.map(card =>
-          <Cards
+          <Card
             key={card._id} {...card}
             onCardClick={props.onCardClick}
           />) : null }
