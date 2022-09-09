@@ -21,7 +21,6 @@ function PopupAddPlace() {
       required />
       <span className="popup__form-input-error place-link-error"></span>
     </label>
-    <button type="submit" className="popup__form-confirm-btn button">Создать</button>
     </>
   );
 }

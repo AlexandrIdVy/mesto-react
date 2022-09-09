@@ -1,96 +1,106 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
+import PopupEditAvatar from "./PopupEditAvatar";
+import PopupEditProfile from "./PopupEditProfile";
+import PopupAddPlace from "./PopupAddPlace";
+import PopupConfirm from "./PopupConfirm";
 import ImagePopup from "./ImagePopup";
-import api from "../utils/Api";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
-  const [cardLink, setCardLink] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [user, setUser] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    Promise.all([api.getUserMe(), api.getInitialCards()])
-      .then(([dataUser, dataCards]) => {
-        setUser(dataUser);
-        setCards(dataCards);
-      })
-      .catch(err => console.log(err))
-      .finally(() => setIsLoaded(true))
-  }, [isLoaded]);
+  const [buttonText, setButtonText] = useState('');
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-    setIsOpen(true);
     setName('edit-avatar');
     setTitle('Обновить аватар');
+    setButtonText('Сохранить');
   }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-    setIsOpen(true);
     setName('edit-profile');
     setTitle('Редактировать профиль');
+    setButtonText('Сохранить');
   }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
-    setIsOpen(true);
     setName('add-place');
     setTitle('Новое место');
+    setButtonText('Создать');
   }
 
   function handleCardClick(card) {
-    setSelectedCard(true);
-    setCardLink(card.link);
-    setCardName(card.name);
+    setSelectedCard({name: card.name, link: card.link});
   }
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({name: '', link: ''});
   }
 
   return (
     <div className="page">
       <Header />
       <Main
-        avatar={user.avatar}
-        name={user.name}
-        description={user.about}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
         onCardClick={handleCardClick}
-        cards={cards}
       />
       <Footer />
       <PopupWithForm
         name={name}
         title={title}
-        isOpen={isOpen}
-        isEditAvatarPopupOpen={isEditAvatarPopupOpen}
-        isEditProfilePopupOpen={isEditProfilePopupOpen}
-        isAddPlacePopupOpen={isAddPlacePopupOpen}
+        buttonText={buttonText}
+        isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-      />
+      >
+        <PopupAddPlace />
+      </PopupWithForm>
+
+      <PopupWithForm
+        name={name}
+        title={title}
+        buttonText={buttonText}
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+      >
+        <PopupEditAvatar />
+      </PopupWithForm>
+
+      <PopupWithForm
+        name={name}
+        title={title}
+        buttonText={buttonText}
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+      >
+       <PopupEditProfile/>
+      </PopupWithForm>
+
+      <PopupWithForm
+        name={name}
+        title={title}
+        buttonText={buttonText}
+        isOpen={isConfirmPopupOpen}
+        onClose={closeAllPopups}
+      >
+        <PopupConfirm />
+      </PopupWithForm>
       <ImagePopup
-        name={cardName}
-        link={cardLink}
         card={selectedCard}
         onClose={closeAllPopups}
       />

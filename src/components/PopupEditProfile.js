@@ -23,7 +23,6 @@ function PopupEditProfile() {
       maxLength="200" />
       <span className="popup__form-input-error profile-description-error"></span>
     </label>
-    <button type="submit" className="popup__form-confirm-btn button" disabled>Сохранить</button>
     </>
   );
 }
