@@ -25,7 +25,7 @@ function PopupEditProfile() {
     </label>
     <button type="submit" className="popup__form-confirm-btn button" disabled>Сохранить</button>
     </>
-  )
+  );
 }
 
 export default PopupEditProfile;

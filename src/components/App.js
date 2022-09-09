@@ -5,79 +5,79 @@ import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
-import Cards from "./Cards";
 
 function App() {
-  const [isOpen, setIsOpen] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(false);
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
+  const [cardLink, setCardLink] = useState('');
+  const [cardName, setCardName] = useState('');
   const [user, setUser] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api.getUserMe()
-      .then(dataUser => setUser(dataUser))
+    Promise.all([api.getUserMe(), api.getInitialCards()])
+      .then(([dataUser, dataCards]) => {
+        setUser(dataUser);
+        setCards(dataCards);
+      })
       .catch(err => console.log(err))
       .finally(() => setIsLoaded(true))
   }, [isLoaded]);
 
-  useEffect(() => {
-    api.getInitialCards()
-      .then(dataCards => setCards(dataCards))
-      .catch(err => console.log(err))
-      .finally(() => setIsLoaded(true))
-  }, []);
-
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
+    setIsOpen(true);
     setName('edit-avatar');
     setTitle('Обновить аватар');
-    setIsOpen('popup_opened');
   }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
+    setIsOpen(true);
     setName('edit-profile');
     setTitle('Редактировать профиль');
-    setIsOpen('popup_opened');
   }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
+    setIsOpen(true);
     setName('add-place');
     setTitle('Новое место');
-    setIsOpen('popup_opened');
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(true);
+    setCardLink(card.link);
+    setCardName(card.name);
   }
 
   function closeAllPopups() {
-    setIsOpen('');
-    setName('');
-    setTitle('');
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsOpen(false);
+    setSelectedCard(false);
   }
 
   return (
     <div className="page">
       <Header />
-      <main className="content">
       <Main
-        userAvatar={user.avatar}
-        userName={user.name}
-        userDescription={user.about}
+        avatar={user.avatar}
+        name={user.name}
+        description={user.about}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
+        cards={cards}
       />
-      <section className="places">
-        { cards.map(card => <Cards key={card._id} {...card} />) }
-      </section>
-      </main>
       <Footer />
       <PopupWithForm
         name={name}
@@ -88,7 +88,12 @@ function App() {
         isAddPlacePopupOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       />
-      <ImagePopup />
+      <ImagePopup
+        name={cardName}
+        link={cardLink}
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
     </div>
   );
 }

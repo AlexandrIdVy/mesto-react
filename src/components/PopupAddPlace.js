@@ -23,7 +23,7 @@ function PopupAddPlace() {
     </label>
     <button type="submit" className="popup__form-confirm-btn button">Создать</button>
     </>
-  )
+  );
 }
 
 export default PopupAddPlace;

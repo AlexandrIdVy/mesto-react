@@ -5,10 +5,12 @@ import PopupConfirm from "./PopupConfirm";
 
 function PopupWithForm(props) {
   return (
-    <div className={`popup popup_type_${props.name} ${props.isOpen}`}>
+    <div className={`popup popup_type_${props.isOpen ? props.name : ""} ${props.isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container">
-        <h2 className={`popup__title popup__title_type_${props.name}`}>{props.title}</h2>
-        <form name={props.name} className={`popup__form popup__form_type_${props.name}`} noValidate>
+        <h2 className={`popup__title popup__title_type_${props.isOpen ? props.name : ""}`}>
+          {props.isOpen ? props.title : ""}
+        </h2>
+        <form name={props.name} className={`popup__form popup__form_type_${props.isOpen ? props.name : ""}`} noValidate>
           {props.isEditAvatarPopupOpen && <PopupEditAvatar />}
           {props.isEditProfilePopupOpen && <PopupEditProfile />}
           {props.isAddPlacePopupOpen && <PopupAddPlace />}
@@ -17,7 +19,7 @@ function PopupWithForm(props) {
         <button type="button" className="popup__close-btn button button_type_close" onClick={props.onClose}></button>
       </div>
     </div>
-  )
+  );
 }
 
 export default PopupWithForm;
