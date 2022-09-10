@@ -15,29 +15,17 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
-  const [name, setName] = useState('');
-  const [title, setTitle] = useState('');
-  const [buttonText, setButtonText] = useState('');
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-    setName('edit-avatar');
-    setTitle('Обновить аватар');
-    setButtonText('Сохранить');
   }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-    setName('edit-profile');
-    setTitle('Редактировать профиль');
-    setButtonText('Сохранить');
   }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
-    setName('add-place');
-    setTitle('Новое место');
-    setButtonText('Создать');
   }
 
   function handleCardClick(card) {
@@ -62,9 +50,9 @@ function App() {
       />
       <Footer />
       <PopupWithForm
-        name={name}
-        title={title}
-        buttonText={buttonText}
+        name={'add-place'}
+        title={'Новое место'}
+        buttonText={'Создать'}
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       >
@@ -72,9 +60,9 @@ function App() {
       </PopupWithForm>
 
       <PopupWithForm
-        name={name}
-        title={title}
-        buttonText={buttonText}
+        name={'edit-avatar'}
+        title={'Обновить аватар'}
+        buttonText={'Сохранить'}
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       >
@@ -82,9 +70,9 @@ function App() {
       </PopupWithForm>
 
       <PopupWithForm
-        name={name}
-        title={title}
-        buttonText={buttonText}
+        name={'edit-profile'}
+        title={'Редактировать профиль'}
+        buttonText={'Сохранить'}
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       >
@@ -92,9 +80,9 @@ function App() {
       </PopupWithForm>
 
       <PopupWithForm
-        name={name}
-        title={title}
-        buttonText={buttonText}
+        name={'confirm'}
+        title={'Вы уверены?'}
+        buttonText={'Да'}
         isOpen={isConfirmPopupOpen}
         onClose={closeAllPopups}
       >
