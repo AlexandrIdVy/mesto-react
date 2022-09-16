@@ -1,8 +1,8 @@
 {
   "name": "mesto-react",
   "version": "0.1.0",
-  "private": false,
-  "homepage": "https://alexandridvy.github.io/mesto-react",
+  "private": true,
+  "homepage": "https://alexandridvy.github.io/mesto-react/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
