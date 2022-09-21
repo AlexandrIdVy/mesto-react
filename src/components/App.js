@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import api from "../utils/Api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CardsContext } from '../contexts/CardsContext';
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
@@ -15,6 +18,18 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
+  const [currentUser, setСurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
+
+
+  useEffect(() => {
+    Promise.all([api.getUserMe(), api.getInitialCards()])
+      .then(([dataUser, dataCards]) => {
+        setСurrentUser(dataUser);
+        setCards(dataCards);
+      })
+      .catch(err => console.log(err))
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -42,12 +57,16 @@ function App() {
   return (
     <div className="page">
       <Header />
-      <Main
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        onCardClick={handleCardClick}
-      />
+      <CurrentUserContext.Provider value={currentUser}>
+        <CardsContext.Provider value={cards}>
+          <Main
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+          />
+        </CardsContext.Provider>
+      </CurrentUserContext.Provider>s
       <Footer />
       <PopupWithForm
         name={'add-place'}
@@ -76,7 +95,7 @@ function App() {
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       >
-       <PopupEditProfile/>
+      <PopupEditProfile/>
       </PopupWithForm>
 
       <PopupWithForm
