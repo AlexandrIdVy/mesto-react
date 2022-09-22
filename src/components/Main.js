@@ -3,7 +3,7 @@ import Card from "./Card";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CardsContext } from '../contexts/CardsContext';
 
-function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete}) {
 
   const currentUser = React.useContext(CurrentUserContext);
   const cards = React.useContext(CardsContext);
@@ -28,6 +28,8 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
           onCardClick={onCardClick}
           cardDeleteButtonAttribut={!(card.owner._id === currentUser._id)}
           isLiked={card.likes.some(i => i._id === currentUser._id)}
+          onCardLike={onCardLike}
+          onCardDelete={onCardDelete}
         />)) : null }
     </section>
     </main>

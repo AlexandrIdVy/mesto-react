@@ -7,10 +7,10 @@ import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import PopupEditAvatar from "./PopupEditAvatar";
-import PopupEditProfile from "./PopupEditProfile";
 import PopupAddPlace from "./PopupAddPlace";
 import PopupConfirm from "./PopupConfirm";
 import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -18,9 +18,8 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
-  const [currentUser, setСurrentUser] = useState({});
+  const [currentUser, setСurrentUser] = useState({name: '', about: ''});
   const [cards, setCards] = useState([]);
-
 
   useEffect(() => {
     Promise.all([api.getUserMe(), api.getInitialCards()])
@@ -54,6 +53,44 @@ function App() {
     setSelectedCard({name: '', link: ''});
   }
 
+  function handleCardLike(card) {
+    // Проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    if (isLiked) {
+      api.removeLike(card._id)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch(err => console.log(err));
+    }
+    else {
+      api.addLike(card._id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+        .catch(err => console.log(err));
+    }
+
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      .then((cards) => {
+        setCards((state) => state.filter((c) => c._id === card._id ? c = 0 : cards));
+      })
+      .catch(err => console.log(err));
+  }
+
+  function handleUpdateUser(dataUser) {
+    api.sendDataUserMe(dataUser)
+      .then(data => setСurrentUser(data))
+      .catch(err => console.log(err));
+
+    closeAllPopups();
+  }
+
   return (
     <div className="page">
       <Header />
@@ -64,9 +101,9 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
-        </CardsContext.Provider>
-      </CurrentUserContext.Provider>s
       <Footer />
       <PopupWithForm
         name={'add-place'}
@@ -88,15 +125,7 @@ function App() {
         <PopupEditAvatar />
       </PopupWithForm>
 
-      <PopupWithForm
-        name={'edit-profile'}
-        title={'Редактировать профиль'}
-        buttonText={'Сохранить'}
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-      <PopupEditProfile/>
-      </PopupWithForm>
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
       <PopupWithForm
         name={'confirm'}
@@ -111,6 +140,8 @@ function App() {
         card={selectedCard}
         onClose={closeAllPopups}
       />
+      </CardsContext.Provider>
+      </CurrentUserContext.Provider>
     </div>
   );
 }

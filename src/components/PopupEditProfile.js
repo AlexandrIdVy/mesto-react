@@ -1,4 +1,7 @@
-function PopupEditProfile() {
+import React, { useState } from "react";
+
+function PopupEditProfile({name, description, onChangeName, onChangeDescription}) {
+
   return (
     <>
     <label className="popup__fieldset">
@@ -9,7 +12,9 @@ function PopupEditProfile() {
       name="name"
       required
       minLength="2"
-      maxLength="40" />
+      maxLength="40"
+      value={name}
+      onChange={onChangeName} />
       <span className="popup__form-input-error profile-name-error"></span>
     </label>
     <label className="popup__fieldset">
@@ -20,7 +25,9 @@ function PopupEditProfile() {
       name="about"
       required
       minLength="2"
-      maxLength="200" />
+      maxLength="200"
+      value={description}
+      onChange={onChangeDescription} />
       <span className="popup__form-input-error profile-description-error"></span>
     </label>
     </>
