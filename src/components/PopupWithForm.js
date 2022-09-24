@@ -7,7 +7,7 @@ function PopupWithForm({isOpen, name, title, children, buttonText, onClose, onSu
             {children}
           <button type="submit" className="popup__form-confirm-btn button">{buttonText}</button>
         </form>
-        <button type="button" className="popup__close-btn button button_type_close" onClick={onClose}></button>
+        <button type="button" className="popup__close-btn button button_type_close" onClick={onClose} />
       </div>
     </div>
   );

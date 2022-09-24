@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "./Card";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CardsContext } from '../contexts/CardsContext';
 
 function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete}) {
 
-  const currentUser = React.useContext(CurrentUserContext);
-  const cards = React.useContext(CardsContext);
+  const currentUser = useContext(CurrentUserContext);
+  const cards = useContext(CardsContext);
 
   return (
     <main className="content">
@@ -17,9 +17,9 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike,
       <div className="profile__info">
         <h1 className="profile__info-title">{currentUser.name}</h1>
         <p className="profile__info-subtitle">{currentUser.about}</p>
-        <button type="button" className="profile__info-edit-btn button" onClick={onEditProfile}></button>
+        <button type="button" className="profile__info-edit-btn button" onClick={onEditProfile} />
       </div>
-      <button type="button" className="profile__add-btn button" onClick={onAddPlace}></button>
+      <button type="button" className="profile__add-btn button" onClick={onAddPlace} />
     </section>
     <section className="places">
         { cards ? cards.map(card =>

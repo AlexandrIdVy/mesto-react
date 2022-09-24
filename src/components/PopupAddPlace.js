@@ -1,4 +1,4 @@
-function PopupAddPlace({onChangeName, onChangeLink}) {
+function PopupAddPlace({link, name, onChangeName, onChangeLink}) {
   return (
     <>
     <label className="popup__fieldset">
@@ -10,6 +10,7 @@ function PopupAddPlace({onChangeName, onChangeLink}) {
       required
       minLength="2"
       maxLength="30"
+      value={name}
       onChange={onChangeName}
       />
       <span className="popup__form-input-error name-place-error"></span>
@@ -21,6 +22,7 @@ function PopupAddPlace({onChangeName, onChangeLink}) {
       name="link"
       placeholder="Ссылка на картинку"
       required
+      value={link}
       onChange={onChangeLink}
       />
       <span className="popup__form-input-error place-link-error"></span>

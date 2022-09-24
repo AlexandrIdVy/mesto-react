@@ -37,6 +37,8 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
         onSubmit={handleSubmit}
       >
         <PopupAddPlace
+          name={name}
+          link={link}
           onChangeName={handleChangeName}
           onChangeLink={handleChangeLink}
         />

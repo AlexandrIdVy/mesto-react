@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 function PopupEditProfile({name, description, onChangeName, onChangeDescription}) {
 
   return (
