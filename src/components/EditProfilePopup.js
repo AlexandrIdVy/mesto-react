@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import PopupEditProfile from "./PopupEditProfile";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -6,7 +6,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
 
   // Подписка на контекст
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');

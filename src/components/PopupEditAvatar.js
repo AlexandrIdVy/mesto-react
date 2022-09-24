@@ -1,4 +1,4 @@
-function PopupEditAvatar() {
+function PopupEditAvatar({avatar, value, onChange}) {
   return (
     <>
     <label className="popup__fieldset">
@@ -7,7 +7,11 @@ function PopupEditAvatar() {
       id="place-avatar"
       name="avatar"
       placeholder="Ссылка на картинку"
-      required />
+      required
+      value={value}
+      ref={avatar}
+      onChange={onChange}
+      />
       <span className="popup__form-input-error place-avatar-error"></span>
     </label>
     </>

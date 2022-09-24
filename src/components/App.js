@@ -6,11 +6,11 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
-import PopupEditAvatar from "./PopupEditAvatar";
-import PopupAddPlace from "./PopupAddPlace";
 import PopupConfirm from "./PopupConfirm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -18,7 +18,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
-  const [currentUser, setСurrentUser] = useState({name: '', about: ''});
+  const [currentUser, setСurrentUser] = useState({name: '', about: '', avatar: ''});
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -91,6 +91,22 @@ function App() {
     closeAllPopups();
   }
 
+  function handleUpdateAvatar(dataUser) {
+    api.editAvatar(dataUser)
+      .then(data => setСurrentUser(data))
+      .catch(err => console.log(err));
+
+    closeAllPopups();
+  }
+
+  function handleAddPlaceSubmit(card) {
+    api.sendCard(card)
+      .then(newCard => setCards([newCard, ...cards]))
+      .catch(err => console.log(err));
+
+    closeAllPopups();
+  }
+
   return (
     <div className="page">
       <Header />
@@ -105,25 +121,10 @@ function App() {
             onCardDelete={handleCardDelete}
           />
       <Footer />
-      <PopupWithForm
-        name={'add-place'}
-        title={'Новое место'}
-        buttonText={'Создать'}
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <PopupAddPlace />
-      </PopupWithForm>
 
-      <PopupWithForm
-        name={'edit-avatar'}
-        title={'Обновить аватар'}
-        buttonText={'Сохранить'}
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <PopupEditAvatar />
-      </PopupWithForm>
+      <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+
+      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
