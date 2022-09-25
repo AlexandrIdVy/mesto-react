@@ -85,26 +85,29 @@ function App() {
 
   function handleUpdateUser(dataUser) {
     api.sendDataUserMe(dataUser)
-      .then(data => setСurrentUser(data))
+      .then(data => {
+        setСurrentUser(data);
+        closeAllPopups();
+      })
       .catch(err => console.log(err));
-
-    closeAllPopups();
   }
 
   function handleUpdateAvatar(dataUser) {
     api.editAvatar(dataUser)
-      .then(data => setСurrentUser(data))
+      .then(data => {
+        setСurrentUser(data);
+        closeAllPopups();
+      })
       .catch(err => console.log(err));
-
-    closeAllPopups();
   }
 
   function handleAddPlaceSubmit(card) {
     api.sendCard(card)
-      .then(newCard => setCards([newCard, ...cards]))
+      .then(newCard => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
       .catch(err => console.log(err));
-
-    closeAllPopups();
   }
 
   return (
