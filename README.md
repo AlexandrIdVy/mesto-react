@@ -6,7 +6,7 @@
 <img src="https://github.com/AlexandrIdVy/mesto/blob/main/src/images/demo.png">
 </div>
 
-## Проектная работа 10 (Яндекс.Практикум)
+## Проектная работа 10-11 (Яндекс.Практикум)
 
 Страница профиля социальной сети с фотографиями исследованных мест России.
 
@@ -21,6 +21,7 @@
   * use.State
   * use.Effect
   * Promise API
+  * React.createContext
 
 
 [RU](#Место) **[EN](#Mesto)**
@@ -31,7 +32,7 @@
 <img src="https://github.com/AlexandrIdVy/mesto/blob/main/src/images/demo.png">
 </div>
 
-## Project work 10 (Yandex.Praktikum - additional education courses)
+## Project work 10-11 (Yandex.Praktikum - additional education courses)
 
 A social network profile page with photos of explored places in Russia.
 
@@ -46,3 +47,4 @@ A social network profile page with photos of explored places in Russia.
   * use.State
   * use.Effect
   * Promise API
+  * React.createContext
